@@ -1,0 +1,49 @@
+﻿@inject SignInManager<User> SignInManager
+
+@{
+    var coreSettings = await settingService.GetSettingsAsync<CoreSettings>();
+    var blogSettings = await settingService.GetSettingsAsync<BlogSettings>();
+    var currentUser = await userManager.GetUserAsync(Context.User);
+    var title = ViewData["Title"] == null ? coreSettings.Title : $"{ViewData["Title"]} - {coreSettings.Title}";
+    string description = ViewData["Description"] == null ? coreSettings.Tagline : ViewData["Description"] as string;
+    var domain = Context.Request.Host;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@title</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:domain" content="@domain" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="@title" />
+    @if (!string.IsNullOrEmpty(description))
+    {
+        <meta name="description" content="@description" />
+        <meta name="twitter:description" property="og:description" itemprop="description" content="@description" />
+    }
+    @RenderSection("Canonical", required: false)
+    <link rel="stylesheet" href="~/themes/@coreSettings.Theme/css/style.css" asp-append-version="true" />
+    @await Html.PartialAsync("_Analytics")
+</head>
+<body>
+    <partial name="_Header" />
+    <main role="main" class="container">
+        <div class="row">
+            <aside class="col-md-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a asp-action="Index">Profile</a></li>
+                    <li><a id="change-password" asp-action="ChangePassword">Password</a></li>
+                </ul>
+            </aside>
+            <div class="col-md-9 blog-main">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+    <partial name="_Footer" />
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
