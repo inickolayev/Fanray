@@ -29,7 +29,8 @@ npx babel js --out-dir ../../../wwwroot/admin/js --source-maps --watch
 
 Individual file
 ```bash
-npx babel js/admin.js --out-dir ../../../wwwroot/admin/js --source-maps --plugins transform-remove-console
+babel ts/admin.js --out-dir ../../../wwwroot/admin/js --source-maps --plugins transform-remove-console
+
 npx babel js/blog-categories.js --out-dir ../../../wwwroot/admin/js --source-maps --plugins transform-remove-console
 npx babel js/blog-compose.js --out-dir ../../../wwwroot/admin/js --source-maps --plugins transform-remove-console
 npx babel js/blog-media.js --out-dir ../../../wwwroot/admin/js --source-maps --plugins transform-remove-console
